@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Felipe y Sarita · Cartagena 2028</title>
+  <title>Felipe y Sarita · Cartagena 2027</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
@@ -14,9 +14,11 @@
       --muted: #6e6256;
       --line: #d9cfc0;
       --gold: #9a7340;
+      --gold-deep: #7c5b30;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
       background: var(--paper);
@@ -25,8 +27,42 @@
       font-weight: 300;
     }
 
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      padding: 0.85rem 1rem;
+      background: rgba(244, 239, 230, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.55rem 1rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+      transform: translateY(-1px);
+    }
+
     .hero {
-      min-height: 100vh;
+      min-height: calc(100vh - 58px);
       display: grid;
       grid-template-columns: 1.05fr 0.95fr;
     }
@@ -35,7 +71,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 8vh 8vw;
+      padding: 7vh 7vw;
     }
 
     .place {
@@ -49,9 +85,9 @@
     h1 {
       font-family: "Cormorant Garamond", Georgia, serif;
       font-weight: 500;
-      font-size: clamp(4.2rem, 8vw, 7.4rem);
+      font-size: clamp(4rem, 7.4vw, 6.8rem);
       line-height: 0.88;
-      margin-top: 1.4rem;
+      margin-top: 1.2rem;
     }
 
     h1 em {
@@ -64,14 +100,54 @@
     }
 
     .dates {
-      margin-top: 1.8rem;
+      margin-top: 1.5rem;
       font-family: "Cormorant Garamond", Georgia, serif;
-      font-size: clamp(1.4rem, 2vw, 1.9rem);
+      font-size: clamp(1.35rem, 2vw, 1.8rem);
       font-weight: 500;
     }
 
+    .count {
+      display: flex;
+      gap: 1.4rem;
+      margin-top: 2rem;
+    }
+
+    .count div { min-width: 3.2rem; }
+
+    .count strong {
+      display: block;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 2.4rem;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .count span {
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .cta {
+      display: inline-block;
+      margin-top: 2.2rem;
+      width: fit-content;
+      text-decoration: none;
+      background: var(--gold);
+      color: #fff;
+      padding: 0.85rem 1.4rem;
+      border-radius: 999px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      transition: background 0.25s ease, transform 0.25s ease;
+    }
+
+    .cta:hover { background: var(--gold-deep); transform: translateY(-2px); }
+
     .photo {
-      min-height: 100vh;
+      min-height: 100%;
       overflow: hidden;
       background: #3a2a22;
     }
@@ -85,9 +161,9 @@
     }
 
     main {
-      max-width: 880px;
+      max-width: 920px;
       margin: 0 auto;
-      padding: 6rem 1.5rem 5rem;
+      padding: 4.5rem 1.5rem 4rem;
     }
 
     article {
@@ -96,9 +172,17 @@
       gap: 1.5rem;
       padding: 2.2rem 0;
       border-top: 1px solid var(--line);
+      scroll-margin-top: 5.5rem;
     }
 
-    article:last-child { border-bottom: 1px solid var(--line); }
+    article:last-of-type { border-bottom: 1px solid var(--line); }
+
+    article.show { animation: rise 0.7s ease both; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: none; }
+    }
 
     .day {
       font-family: "Cormorant Garamond", Georgia, serif;
@@ -132,10 +216,24 @@
       font-size: 1rem;
     }
 
-    .meta strong {
-      color: var(--ink);
-      font-weight: 500;
+    .meta strong { color: var(--ink); font-weight: 500; }
+
+    .jump {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 1.1rem;
     }
+
+    .jump a {
+      text-decoration: none;
+      color: var(--gold-deep);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 0.1rem;
+      font-size: 0.85rem;
+    }
+
+    .jump a:hover { color: var(--ink); }
 
     footer {
       text-align: center;
@@ -149,23 +247,36 @@
     @media (max-width: 800px) {
       .hero { grid-template-columns: 1fr; }
       .photo { min-height: 72vw; height: 72vw; order: -1; }
-      .intro { padding: 3.2rem 1.5rem 2.5rem; }
+      .intro { padding: 2.6rem 1.5rem 2.4rem; }
       article { grid-template-columns: 1fr; gap: 0.4rem; }
     }
   </style>
 </head>
 <body>
-  <header class="hero">
+  <nav class="nav">
+    <a href="#inicio">Inicio</a>
+    <a href="#coctel">Cóctel</a>
+    <a href="#ceremonia">Ceremonia</a>
+    <a href="#desenguayabe">Desenguayabe</a>
+  </nav>
+
+  <header class="hero" id="inicio">
     <div class="intro">
       <p class="place">Cartagena de Indias</p>
       <h1>Felipe <em>y</em> Sarita</h1>
-      <p class="dates">26, 27 y 28 de febrero de 2028</p>
+      <p class="dates">26, 27 y 28 de febrero de 2027</p>
+      <div class="count" aria-label="Cuenta regresiva">
+        <div><strong id="dd">--</strong><span>días</span></div>
+        <div><strong id="hh">--</strong><span>horas</span></div>
+        <div><strong id="mm">--</strong><span>min</span></div>
+      </div>
+      <a class="cta" href="#coctel">Ver los tres días</a>
     </div>
     <div class="photo"><img src="foto.jpg" alt="Felipe y Sarita"></div>
   </header>
 
   <main>
-    <article>
+    <article id="coctel">
       <p class="day">26<span>febrero</span></p>
       <div>
         <h2>Cóctel</h2>
@@ -174,10 +285,11 @@
           Hotel InterContinental · 7:00 p. m.<br>
           <strong>Vestimenta formal</strong>
         </p>
+        <p class="jump"><a href="#ceremonia">Siguiente: ceremonia</a></p>
       </div>
     </article>
 
-    <article>
+    <article id="ceremonia">
       <p class="day">27<span>febrero</span></p>
       <div>
         <h2>Ceremonia</h2>
@@ -186,10 +298,11 @@
           Luego, la celebración en el Centro de Convenciones<br>
           <strong>Traje sin corbata</strong>
         </p>
+        <p class="jump"><a href="#desenguayabe">Siguiente: desenguayabe</a></p>
       </div>
     </article>
 
-    <article>
+    <article id="desenguayabe">
       <p class="day">28<span>febrero</span></p>
       <div>
         <h2>Desenguayabe</h2>
@@ -197,10 +310,46 @@
           Piscina del Hotel InterContinental<br>
           12:00 del mediodía
         </p>
+        <p class="jump"><a href="#inicio">Volver al inicio</a></p>
       </div>
     </article>
   </main>
 
-  <footer>Cartagena · 2028</footer>
+  <footer>Cartagena · 2027</footer>
+
+  <script>
+    const target = new Date("2027-02-26T19:00:00-05:00");
+    const pad = (n) => String(n).padStart(2, "0");
+    function tick() {
+      const diff = Math.max(0, target - new Date());
+      const day = Math.floor(diff / 86400000);
+      const hour = Math.floor(diff / 3600000) % 24;
+      const min = Math.floor(diff / 60000) % 60;
+      document.getElementById("dd").textContent = day;
+      document.getElementById("hh").textContent = pad(hour);
+      document.getElementById("mm").textContent = pad(min);
+    }
+    tick();
+    setInterval(tick, 30000);
+
+    const links = [...document.querySelectorAll(".nav a")];
+    const sections = ["inicio", "coctel", "ceremonia", "desenguayabe"].map((id) => document.getElementById(id));
+    const mark = () => {
+      let current = sections[0].id;
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top < 140) current = section.id;
+      });
+      links.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === "#" + current));
+    };
+    document.addEventListener("scroll", mark, { passive: true });
+    mark();
+
+    const seen = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("show");
+      });
+    }, { threshold: 0.25 });
+    document.querySelectorAll("article").forEach((article) => seen.observe(article));
+  </script>
 </body>
 </html>
