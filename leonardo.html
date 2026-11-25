@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Para Leonardo López · Felipe y Sarita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f4efe6;
+      --ink: #241c16;
+      --muted: #6e6256;
+      --line: #d9cfc0;
+      --gold: #9a7340;
+      --gold-deep: #7c5b30;
+      --envelope: #efe4d2;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Outfit, "Avenir Next", sans-serif;
+      font-weight: 300;
+    }
+    button, a { font-family: inherit; }
+
+    .seal {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 2rem 1.2rem 3rem;
+      transition: opacity 0.45s ease;
+    }
+    .seal.gone { opacity: 0; pointer-events: none; position: absolute; inset: 0; }
+
+    .envelope {
+      width: min(420px, 100%);
+      background: var(--envelope);
+      border: 1px solid #e2d3ba;
+      border-radius: 18px;
+      box-shadow: 0 24px 60px rgba(36, 28, 22, 0.12);
+      overflow: hidden;
+      text-align: center;
+    }
+    .flap {
+      height: 92px;
+      background: linear-gradient(#f7f1e6, #e7d7be);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      transition: transform 0.7s ease;
+    }
+    .envelope.open .flap { transform: rotateX(78deg); }
+    .seal-mark {
+      width: 74px;
+      height: 74px;
+      margin: -36px auto 0;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.04em;
+      position: relative;
+      z-index: 1;
+    }
+    .envelope p.for {
+      margin-top: 1.3rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      color: var(--gold);
+    }
+    .envelope h1 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(2.6rem, 8vw, 3.4rem);
+      line-height: 1;
+      margin: 0.35rem 1rem 0.4rem;
+    }
+    .envelope .from {
+      color: var(--muted);
+      padding: 0 1.5rem 1.6rem;
+      line-height: 1.6;
+    }
+    .open-btn, .yes, .ghost {
+      border: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 0.9rem 1.3rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+    }
+    .open-btn, .yes {
+      background: var(--ink);
+      color: var(--paper);
+      margin-bottom: 1.6rem;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .open-btn:hover, .yes:hover { transform: translateY(-2px); background: #3a2e24; }
+    .hint { color: var(--muted); font-size: 0.85rem; margin: 0.9rem 0 0.7rem; }
+
+    .invite { display: none; }
+    .invite.on { display: block; animation: rise 0.7s ease; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 0.8rem 1rem;
+      background: rgba(244, 239, 230, 0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav a {
+      text-decoration: none;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.5rem 0.9rem;
+      font-size: 0.74rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .nav a:hover, .nav a.active { background: var(--ink); color: var(--paper); }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      min-height: calc(100vh - 58px);
+    }
+    .intro { display: flex; flex-direction: column; justify-content: center; padding: 6vh 6vw; }
+    .place, .kicker {
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      color: var(--gold);
+      font-weight: 500;
+    }
+    .intro h2 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(3.6rem, 7vw, 6.2rem);
+      line-height: 0.9;
+      margin: 0.7rem 0 0.3rem;
+    }
+    .intro h2 em { display: block; font-style: italic; color: var(--gold); font-size: 0.55em; margin: 0.12em 0 0.05em 0.12em; }
+    .dates { font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.55rem; margin-top: 0.8rem; }
+    .dear { margin-top: 0.8rem; color: var(--muted); font-size: 1.05rem; }
+    .count { display: flex; gap: 1.3rem; margin-top: 1.6rem; }
+    .count strong { display: block; font-family: "Cormorant Garamond", Georgia, serif; font-size: 2.3rem; font-weight: 500; line-height: 1; }
+    .count span { color: var(--muted); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.7rem; }
+    .yes, .ghost { text-decoration: none; display: inline-block; margin: 0; }
+    .ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+    .photo { min-height: 100%; background: #3a2a22; overflow: hidden; }
+    .photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 42%; display: block; }
+
+    main { max-width: 880px; margin: 0 auto; padding: 3.5rem 1.4rem 2rem; }
+    article {
+      display: grid;
+      grid-template-columns: 6.5rem 1fr;
+      gap: 1.2rem;
+      padding: 1.8rem 0;
+      border-top: 1px solid var(--line);
+      scroll-margin-top: 5rem;
+    }
+    article:last-of-type { border-bottom: 1px solid var(--line); }
+    .day { font-family: "Cormorant Garamond", Georgia, serif; font-size: 3rem; line-height: 0.9; color: var(--gold); }
+    .day span { display: block; margin-top: 0.3rem; font-family: Outfit, sans-serif; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+    article h3 { font-family: "Cormorant Garamond", Georgia, serif; font-size: 2rem; font-weight: 500; }
+    .meta { margin-top: 0.45rem; color: var(--muted); line-height: 1.65; }
+    .meta strong { color: var(--ink); font-weight: 500; }
+    .meta a { color: var(--gold-deep); }
+
+    .rsvp {
+      margin: 2.2rem auto 0;
+      max-width: 640px;
+      text-align: center;
+      padding: 0 1.2rem 3rem;
+    }
+    .rsvp h3 { font-family: "Cormorant Garamond", Georgia, serif; font-size: 2.3rem; font-weight: 500; margin: 0.4rem 0 0.5rem; }
+    .rsvp p { color: var(--muted); }
+    .rsvp .yes { margin-top: 1.1rem; }
+    .thanks { display: none; color: var(--ink); font-size: 1.15rem; margin-top: 0.8rem; }
+    .thanks.on { display: block; }
+    footer { text-align: center; padding: 0 1rem 2.5rem; letter-spacing: 0.2em; text-transform: uppercase; font-size: 0.7rem; color: var(--gold); }
+
+    @media (max-width: 800px) {
+      .hero { grid-template-columns: 1fr; }
+      .photo { order: -1; height: 68vw; min-height: 68vw; }
+      .intro { padding: 2.2rem 1.3rem 2.4rem; }
+      article { grid-template-columns: 1fr; gap: 0.3rem; }
+    }
+  </style>
+</head>
+<body>
+  <section class="seal" id="seal">
+    <div class="envelope" id="envelope">
+      <div class="flap"></div>
+      <div class="seal-mark">F&amp;S</div>
+      <p class="for">Para</p>
+      <h1>Leonardo López</h1>
+      <p class="from">Felipe y Sarita te invitan a su boda<br>en Cartagena de Indias</p>
+      <p class="hint">Toca para abrir tu invitación</p>
+      <button class="open-btn" id="open" type="button">Abrir</button>
+    </div>
+  </section>
+
+  <div class="invite" id="invite">
+    <nav class="nav">
+      <a href="#inicio">Inicio</a>
+      <a href="#coctel">Cóctel</a>
+      <a href="#ceremonia">Ceremonia</a>
+      <a href="#desenguayabe">Desenguayabe</a>
+      <a href="#confirmar">Confirmar</a>
+    </nav>
+
+    <header class="hero" id="inicio">
+      <div class="intro">
+        <p class="place">Cartagena de Indias</p>
+        <h2>Felipe <em>y</em> Sarita</h2>
+        <p class="dear">Leonardo, esta invitación es tuya.</p>
+        <p class="dates">26, 27 y 28 de febrero de 2027</p>
+        <div class="count" aria-label="Cuenta regresiva">
+          <div><strong id="dd">--</strong><span>días</span></div>
+          <div><strong id="hh">--</strong><span>horas</span></div>
+          <div><strong id="mm">--</strong><span>min</span></div>
+        </div>
+        <div class="actions">
+          <a class="yes" href="#confirmar">Ahí estaré</a>
+          <a class="ghost" href="#coctel">Ver el programa</a>
+          <a class="ghost" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Boda%20de%20Felipe%20y%20Sarita&amp;dates=20270227T200000Z/20270228T010000Z&amp;location=Catedral%20Santa%20Catalina%2C%20Cartagena&amp;details=Ceremonia%20a%20las%203%3A00%20p.%20m.%20Luego%2C%20celebraci%C3%B3n%20en%20el%20Centro%20de%20Convenciones." target="_blank" rel="noopener">Agregar al calendario</a>
+        </div>
+      </div>
+      <div class="photo"><img src="foto.jpg" alt="Felipe y Sarita"></div>
+    </header>
+
+    <main>
+      <article id="coctel">
+        <p class="day">26<span>febrero</span></p>
+        <div>
+          <h3>Cóctel</h3>
+          <p class="meta">
+            Parranda vallenata<br>
+            Hotel InterContinental · 7:00 p. m.<br>
+            <strong>Vestimenta formal</strong><br>
+            <a href="https://maps.google.com/?q=Hotel+InterContinental+Cartagena" target="_blank" rel="noopener">Ver el hotel</a>
+          </p>
+        </div>
+      </article>
+      <article id="ceremonia">
+        <p class="day">27<span>febrero</span></p>
+        <div>
+          <h3>Ceremonia</h3>
+          <p class="meta">
+            Catedral Santa Catalina · 3:00 p. m.<br>
+            Luego, la celebración en el Centro de Convenciones<br>
+            <strong>Traje sin corbata</strong><br>
+            <a href="https://maps.google.com/?q=Catedral+Santa+Catalina+Cartagena" target="_blank" rel="noopener">Ver la catedral</a>
+            ·
+            <a href="https://maps.google.com/?q=Centro+de+Convenciones+Cartagena" target="_blank" rel="noopener">Ver el centro de convenciones</a>
+          </p>
+        </div>
+      </article>
+      <article id="desenguayabe">
+        <p class="day">28<span>febrero</span></p>
+        <div>
+          <h3>Desenguayabe</h3>
+          <p class="meta">
+            Piscina del Hotel InterContinental<br>
+            12:00 del mediodía<br>
+            <a href="https://maps.google.com/?q=Hotel+InterContinental+Cartagena" target="_blank" rel="noopener">Ver el hotel</a>
+          </p>
+        </div>
+      </article>
+    </main>
+
+    <section class="rsvp" id="confirmar">
+      <p class="kicker">Tu respuesta</p>
+      <h3>Leonardo, ¿nos acompañas?</h3>
+      <p>Un toque y queda tu confirmación en esta invitación.</p>
+      <button class="yes" id="confirm" type="button">Confirmo, ahí estaré</button>
+      <p class="thanks" id="thanks">Listo, Leonardo. Felipe y Sarita te esperan en Cartagena.</p>
+    </section>
+    <footer>Cartagena · 2027</footer>
+  </div>
+
+  <script>
+    const seal = document.getElementById("seal");
+    const envelope = document.getElementById("envelope");
+    const invite = document.getElementById("invite");
+    const open = () => {
+      envelope.classList.add("open");
+      setTimeout(() => {
+        seal.classList.add("gone");
+        invite.classList.add("on");
+        window.scrollTo(0, 0);
+      }, 650);
+    };
+    document.getElementById("open").addEventListener("click", open);
+    envelope.addEventListener("click", (event) => {
+      if (event.target.id !== "open") open();
+    });
+
+    const target = new Date("2027-02-26T19:00:00-05:00");
+    const pad = (n) => String(n).padStart(2, "0");
+    const tick = () => {
+      const diff = Math.max(0, target - new Date());
+      document.getElementById("dd").textContent = Math.floor(diff / 86400000);
+      document.getElementById("hh").textContent = pad(Math.floor(diff / 3600000) % 24);
+      document.getElementById("mm").textContent = pad(Math.floor(diff / 60000) % 60);
+    };
+    tick();
+    setInterval(tick, 30000);
+
+    const thanks = document.getElementById("thanks");
+    const confirm = document.getElementById("confirm");
+    const showYes = () => {
+      thanks.classList.add("on");
+      confirm.hidden = true;
+      localStorage.setItem("leonardo-lopez-boda", "si");
+    };
+    confirm.addEventListener("click", showYes);
+    if (localStorage.getItem("leonardo-lopez-boda") === "si") showYes();
+
+    const links = [...document.querySelectorAll(".nav a")];
+    const sections = ["inicio", "coctel", "ceremonia", "desenguayabe", "confirmar"].map((id) => document.getElementById(id));
+    const mark = () => {
+      if (!invite.classList.contains("on")) return;
+      let current = sections[0].id;
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top < 120) current = section.id;
+      });
+      links.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === "#" + current));
+    };
+    document.addEventListener("scroll", mark, { passive: true });
+  </script>
+</body>
+</html>
