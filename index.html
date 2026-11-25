@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Felipe y Sarita · Cartagena 2028</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f4efe6;
+      --ink: #241c16;
+      --muted: #6e6256;
+      --line: #d9cfc0;
+      --gold: #9a7340;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Outfit, "Avenir Next", sans-serif;
+      font-weight: 300;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+
+    .intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8vh 8vw;
+    }
+
+    .place {
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    h1 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(4.2rem, 8vw, 7.4rem);
+      line-height: 0.88;
+      margin-top: 1.4rem;
+    }
+
+    h1 em {
+      font-style: italic;
+      font-weight: 500;
+      display: block;
+      font-size: 0.55em;
+      margin: 0.15em 0 0.05em 0.15em;
+      color: var(--gold);
+    }
+
+    .dates {
+      margin-top: 1.8rem;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(1.4rem, 2vw, 1.9rem);
+      font-weight: 500;
+    }
+
+    .photo {
+      min-height: 100vh;
+      overflow: hidden;
+      background: #3a2a22;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 42%;
+      display: block;
+    }
+
+    main {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 5rem;
+    }
+
+    article {
+      display: grid;
+      grid-template-columns: 7rem 1fr;
+      gap: 1.5rem;
+      padding: 2.2rem 0;
+      border-top: 1px solid var(--line);
+    }
+
+    article:last-child { border-bottom: 1px solid var(--line); }
+
+    .day {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 3.4rem;
+      line-height: 0.9;
+      color: var(--gold);
+    }
+
+    .day span {
+      display: block;
+      margin-top: 0.35rem;
+      font-family: Outfit, sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    h2 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 2.15rem;
+      font-weight: 500;
+      line-height: 1.1;
+    }
+
+    .meta {
+      margin-top: 0.7rem;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    .meta strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    footer {
+      text-align: center;
+      padding: 0 1.5rem 4rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      color: var(--gold);
+    }
+
+    @media (max-width: 800px) {
+      .hero { grid-template-columns: 1fr; }
+      .photo { min-height: 72vw; height: 72vw; order: -1; }
+      .intro { padding: 3.2rem 1.5rem 2.5rem; }
+      article { grid-template-columns: 1fr; gap: 0.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="intro">
+      <p class="place">Cartagena de Indias</p>
+      <h1>Felipe <em>y</em> Sarita</h1>
+      <p class="dates">26, 27 y 28 de febrero de 2028</p>
+    </div>
+    <div class="photo"><img src="foto.jpg" alt="Felipe y Sarita"></div>
+  </header>
+
+  <main>
+    <article>
+      <p class="day">26<span>febrero</span></p>
+      <div>
+        <h2>Cóctel</h2>
+        <p class="meta">
+          Parranda vallenata<br>
+          Hotel InterContinental · 7:00 p. m.<br>
+          <strong>Vestimenta formal</strong>
+        </p>
+      </div>
+    </article>
+
+    <article>
+      <p class="day">27<span>febrero</span></p>
+      <div>
+        <h2>Ceremonia</h2>
+        <p class="meta">
+          Catedral Santa Catalina · 3:00 p. m.<br>
+          Luego, la celebración en el Centro de Convenciones<br>
+          <strong>Traje sin corbata</strong>
+        </p>
+      </div>
+    </article>
+
+    <article>
+      <p class="day">28<span>febrero</span></p>
+      <div>
+        <h2>Desenguayabe</h2>
+        <p class="meta">
+          Piscina del Hotel InterContinental<br>
+          12:00 del mediodía
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <footer>Cartagena · 2028</footer>
+</body>
+</html>
